@@ -10,6 +10,7 @@ import ballerinax/mysql.driver as _;
         allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
         allowHeaders: ["Authorization", "content-type", "Accept", "x-jwt-assertion"],
         maxAge: 84900
+        
     }
 }
 
@@ -22,20 +23,19 @@ type Employee record {
     decimal salary;
 };
 
-type DatabaseConfig record {| 
-    string host; 
-    string user; 
-    string password; 
-    string database; 
-    int port; 
-|};
+// type DatabaseConfig record {| 
+//     string host; 
+//     string user; 
+//     string password; 
+//     string database; 
+//     int port; 
+// |};
 
 // Load the database configuration from Ballerina.toml
-configurable DatabaseConfig databaseConfig = ?;
+//configurable DatabaseConfig databaseConfig = ?;
 
 // Create a new MySQL client using the configuration
-final mysql:Client dbClient = check new (...databaseConfig);
-
+mysql:Client dbClient = check  new ("localhost", "root", "", "employee_db", 3306);
 // Define the HTTP service
 service /employees on new http:Listener(8086) {
 
